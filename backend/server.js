@@ -1,31 +1,55 @@
 // server.js
-
+import createSubscriptionSession from './routes/createSubscriptionSession.js';
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
-const createCheckoutSession = require('./routes/createCheckoutSession');
+const { createClient } = require('@supabase/supabase-js');
 
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const port = process.env.PORT || 5000;
 
-// Middleware
+// Middlewares
 app.use(cors());
 app.use(express.json());
 
-// Routes
-app.use('/create-checkout-session', createCheckoutSession);
+// Supabase client setup
+const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_ROLE_KEY
+);
 
-// Health check route (optional)
-app.get('/', (req, res) => {
-  res.send('Lock’d In API is running.');
+// Make Supabase client available in routes
+app.use((req, res, next) => {
+  req.supabase = supabase;
+  next();
 });
+
+// Routes
+const bookingRoutes = require('./routes/bookingRoutes');
+const checkoutRoute = require('./routes/createCheckoutSession');
+const webhookRoute = require('./routes/webhook');
+const paymentIntentRoute = require('./routes/paymentIntent');
+const captureRoute = require('./routes/capturePayment');
+const updateAndCapturePayment = require('./routes/updateAndCapturePayment');
+
+
+app.use('/', bookingRoutes);
+app.use('/', checkoutRoute);
+app.use('/webhook', webhookRoute);
+app.use('/', paymentIntentRoute);
+app.use('/', captureRoute);
+app.use('/update-payment', updateAndCapturePayment);
+app.use('/create-subscription-session', createSubscriptionSession);
+
+
 
 // Start server
-app.listen(PORT, () => {
-  console.log(`✅ Server running on port ${PORT}`);
+app.listen(port, () => {
+  console.log(`🚀 Server running on port ${port}`);
 });
+
 
 
 
