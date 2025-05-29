@@ -1,7 +1,7 @@
 
 import { loadStripe } from '@stripe/stripe-js';
-import { pad, text, button } from '../styleUtils';
-import { spacing, colors } from '../styleConfig';
+import { pad, text, button } from './styleUtils';
+import { spacing, colors } from './styleConfig';
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY); // ✅ use env var securely
 
