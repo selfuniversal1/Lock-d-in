@@ -1,6 +1,6 @@
 // server.js
 import createSubscriptionSession from '../routes/createSubscriptionSession.js';
-import webhookRoute from './webhook.js';
+import webhookRoute from './routes/webhook.js';
 
 const express = require('express');
 const cors = require('cors');
