@@ -15,3 +15,8 @@ This is the official backend for the Lock’d In booking platform — built with
 ## License
 
 This project is licensed under the terms of the [MIT license](LICENSE).
+
+## Copyright Notice
+
+© 2025 The Grooming District / Lock’d In. All rights reserved.  
+Licensed under the MIT License. See LICENSE for details.
