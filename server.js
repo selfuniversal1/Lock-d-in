@@ -3,7 +3,6 @@ const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const path = require('path');
-const { fileURLToPath } = require('url');
 const { createClient } = require('@supabase/supabase-js');
 
 const createSubscriptionSession = require('./routes/createSubscriptionSession.js');
@@ -23,13 +22,13 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-// Supabase client setup
+// Supabase client
 const supabase = createClient(
   process.env.SUPABASE_URL,
   process.env.SUPABASE_SERVICE_ROLE_KEY
 );
 
-// Inject Supabase into requests
+// Inject Supabase into all requests
 app.use((req, res, next) => {
   req.supabase = supabase;
   next();
@@ -44,14 +43,10 @@ app.use('/', captureRoute);
 app.use('/update-payment', updateAndCapturePayment);
 app.use('/create-subscription-session', createSubscriptionSession);
 
-// Support for __dirname and __filename in CommonJS
-const __filename = fileURLToPath(import.meta.url || '');
-const __dirname = path.dirname(__filename || '');
-
-// Serve static frontend files from Vite build
+// Serve static files from 'dist' folder
 app.use(express.static(path.join(__dirname, 'dist')));
 
-// Fallback route for SPA
+// Catch-all route for SPA
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
@@ -60,6 +55,7 @@ app.get('*', (req, res) => {
 app.listen(port, () => {
   console.log(`🚀 Server running on port ${port}`);
 });
+
 
 
 
