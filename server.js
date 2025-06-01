@@ -15,6 +15,18 @@ const updateAndCapturePayment = require('./routes/updateAndCapturePayment.js');
 
 dotenv.config();
 
+const fs = require('fs');
+
+console.log("📁 Current working directory:", process.cwd());
+
+try {
+  const files = fs.readdirSync('./routes');
+  console.log("📂 Contents of './routes':", files);
+} catch (err) {
+  console.error("❌ Error reading './routes':", err.message);
+}
+
+
 const app = express();
 const port = process.env.PORT || 5000;
 

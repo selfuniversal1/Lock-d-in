@@ -1,3 +1,4 @@
+// routes/createSubscriptionSession.js
 const express = require('express');
 const Stripe = require('stripe');
 const dotenv = require('dotenv');
@@ -21,7 +22,7 @@ router.post('/', async (req, res) => {
       customer_email: email,
       line_items: [
         {
-          price: process.env.STRIPE_SUBSCRIPTION_PRICE_ID,
+          price: process.env.STRIPE_SUBSCRIPTION_PRICE_ID, // Your price ID from Stripe
           quantity: 1,
         },
       ],
