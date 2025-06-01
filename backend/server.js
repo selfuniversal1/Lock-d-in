@@ -5,13 +5,13 @@ const dotenv = require('dotenv');
 const path = require('path');
 const { createClient } = require('@supabase/supabase-js');
 
-const createSubscriptionSession = require('./routes/createSubscriptionSession.js');
-const webhookRoutes = require('./routes/webhook.js');
-const bookingRoutes = require('./routes/bookingRoutes.js');
+const createSubscriptionSession = require('../routes/createSubscriptionSession.js');
+const webhookRoutes = require('../routes/webhook.js');
+const bookingRoutes = require('../routes/bookingRoutes.js');
 const checkoutRoute = require('./routes/createCheckoutSession.js');
-const paymentIntentRoute = require('./routes/paymentIntent.js');
-const captureRoute = require('./routes/capturePayment.js');
-const updateAndCapturePayment = require('./routes/updateAndCapturePayment.js');
+const paymentIntentRoute = require('../routes/paymentIntent.js');
+const captureRoute = require('../routes/capturePayment.js');
+const updateAndCapturePayment = require('../routes/updateAndCapturePayment.js');
 
 dotenv.config();
 
