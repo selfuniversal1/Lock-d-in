@@ -1,31 +1,38 @@
 // backend/routes/createCheckoutSession.js
 const express = require('express');
 const router = express.Router();
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const Stripe = require('stripe');
+const dotenv = require('dotenv');
+
+dotenv.config();
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 router.post('/', async (req, res) => {
   const { email } = req.body;
 
-  try {
-    // Create or fetch customer
-    const customer = await stripe.customers.create({ email });
+  if (!email) {
+    return res.status(400).json({ error: 'Missing email' });
+  }
 
+  try {
     const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card'],
-      customer: customer.id,
-      line_items: [{
-        price: 'price_xxx', // 🔁 Replace with your $30 base plan price ID from Stripe
-        quantity: 1,
-      }],
       mode: 'subscription',
-      success_url: `${process.env.VITE_API_URL}/success`,
-      cancel_url: `${process.env.VITE_API_URL}/failure`,
+      payment_method_types: ['card'],
+      customer_email: email,
+      line_items: [
+        {
+          price: process.env.STRIPE_SUBSCRIPTION_PRICE_ID,
+          quantity: 1,
+        },
+      ],
+      success_url: `${process.env.CLIENT_URL}/provider-dashboard?subscribed=true`,
+      cancel_url: `${process.env.CLIENT_URL}/provider-dashboard?subscribed=false`,
     });
 
-    res.status(200).json({ sessionId: session.id });
+    res.json({ sessionId: session.id });
   } catch (error) {
-    console.error('Stripe checkout error:', error);
-    res.status(500).json({ error: error.message });
+    console.error('Stripe session error:', error.message);
+    res.status(500).json({ error: 'Unable to create checkout session' });
   }
 });
 

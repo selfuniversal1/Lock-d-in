@@ -1,9 +1,7 @@
-// bookingRoutes.js (Express)
-import express from 'express';
-import { createClient } from '@supabase/supabase-js';
-import { v4 as uuidv4 } from 'uuid';
-import dotenv from 'dotenv';
-dotenv.config();
+const express = require('express');
+const { createClient } = require('@supabase/supabase-js');
+const { v4: uuidv4 } = require('uuid');
+require('dotenv').config();
 
 const router = express.Router();
 
@@ -76,4 +74,5 @@ router.post('/book', async (req, res) => {
   return res.status(200).json({ success: true, appointments: inserts.length });
 });
 
-export default router;
+module.exports = router;
+

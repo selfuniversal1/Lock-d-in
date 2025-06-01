@@ -1,6 +1,6 @@
-import express from 'express';
-import Stripe from 'stripe';
-import dotenv from 'dotenv';
+const express = require('express');
+const Stripe = require('stripe');
+const dotenv = require('dotenv');
 
 dotenv.config();
 
@@ -21,7 +21,7 @@ router.post('/', async (req, res) => {
       customer_email: email,
       line_items: [
         {
-          price: process.env.STRIPE_SUBSCRIPTION_PRICE_ID, // Price ID from Stripe
+          price: process.env.STRIPE_SUBSCRIPTION_PRICE_ID,
           quantity: 1,
         },
       ],
@@ -36,4 +36,4 @@ router.post('/', async (req, res) => {
   }
 });
 
-export default router;
+module.exports = router;

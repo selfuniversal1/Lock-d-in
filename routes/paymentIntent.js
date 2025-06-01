@@ -1,4 +1,3 @@
-// backend/routes/paymentIntent.js
 const express = require('express');
 const router = express.Router();
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
@@ -8,14 +7,12 @@ router.post('/create-payment-intent', async (req, res) => {
 
   try {
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: servicePrice * 100 + 100, // Add $1 fee (in cents)
+      amount: amount * 100 + 100, // Convert to cents + $1 fee
       currency: 'usd',
       capture_method: 'manual',
-      customer: stripeCustomerId,
-      payment_method: paymentMethodId, // from frontend
+      customer: customerId,
+      payment_method: paymentMethodId,
       confirm: true
-
-
     });
 
     res.json({ paymentIntentId: paymentIntent.id });
@@ -26,4 +23,3 @@ router.post('/create-payment-intent', async (req, res) => {
 });
 
 module.exports = router;
-
