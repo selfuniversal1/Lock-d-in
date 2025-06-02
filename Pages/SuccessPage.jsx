@@ -1,5 +1,5 @@
 import { useEffect, useLocation } from 'react-router-dom';
-import { generateReceipt } from '../utils/generateReceipt';
+import { generateReceipt } from '../utils/utils/generateReceipt';
 
 export default function SuccessPage() {
   const location = useLocation();
