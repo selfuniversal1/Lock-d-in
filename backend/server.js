@@ -6,7 +6,7 @@ const path = require('path');
 const { createClient } = require('@supabase/supabase-js');
 
 const createSubscriptionSession = require('../routes/createSubscriptionSession.js');
-const webhookRoutes = require('../routes/webhook.js');
+const webhookRoute = require('../routes/webhook.js');
 const bookingRoutes = require('../routes/bookingRoutes.js');
 const checkoutRoute = require('./routes/createCheckoutSession.js');
 const paymentIntentRoute = require('../routes/paymentIntent.js');
